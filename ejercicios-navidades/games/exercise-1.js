@@ -104,13 +104,35 @@ let cardArray = [
 // Si has cumplido todas las condiciones...Enhorabuena! tienes un juego de memoría bastante resultón! Además si te
 //  interesa subir la dificultad no tienes más que hacer el array más grande y meter más imagenes...¿te atreves? :D
 
-
 function createMemory (){
 
     // creamos el tablero con las imágenes del array
     const memoryContainer$$ = document.querySelector(".b-grid");
 
-    for (const planet of cardArray){
+    // construimos el cuadro que debe salir al ganar la partida
+    const victory$$ = document.createElement("div");
+        victory$$.setAttribute("class","victoryDiv");
+    const victoryP1$$ = document.createElement("p");
+        victoryP1$$.setAttribute("class","p1");
+    const victoryP2$$ = document.createElement("p");
+        victoryP2$$.setAttribute("class","p2");
+        const victoryP3$$ = document.createElement("p");
+        victoryP3$$.setAttribute("class","p3");
+    memoryContainer$$.appendChild(victory$$);
+    victory$$.appendChild(victoryP1$$);
+    victory$$.appendChild(victoryP2$$);
+    victory$$.appendChild(victoryP3$$);
+
+
+    //creamos un array con todas las posiciones posibles ordenadas
+    const numbersArray = [];
+    for (let n = 0; n < cardArray.length; n++) {numbersArray.push(n);}
+
+    //desordenamos el array de números para usarla al crear las cartas con posiciones random
+    const shuffledArray = numbersArray.sort((a, b) => 0.5 - Math.random());
+    
+    // creamos todas las cartas
+    for (let i = 0; i < cardArray.length; i++){
 
         // creamos la carta, la imagen de la carta, su título y el reverso
         const card$$ = document.createElement("div");
@@ -119,14 +141,14 @@ function createMemory (){
         const cardBack$$ = document.createElement("div");
 
         // le damos clases e id a la carta y su reverso
-        card$$.setAttribute("id",planet.id);
+        card$$.setAttribute("id",cardArray[shuffledArray[i]].id);
         card$$.setAttribute("class","card");
         cardBack$$.setAttribute("class","cardBack shown");
-        cardBack$$.setAttribute("id",planet.id);
+        cardBack$$.setAttribute("id",cardArray[shuffledArray[i]].id);
 
         // le damos contenido a la carta: imagen y título
-        cardImage$$.src = planet.img;
-        cardTitle$$.textContent = planet.name;
+        cardImage$$.src = cardArray[shuffledArray[i]].img;
+        cardTitle$$.textContent = cardArray[shuffledArray[i]].name;
 
         // introducimos los elementos en el container
         card$$.appendChild(cardBack$$);
@@ -135,8 +157,9 @@ function createMemory (){
         memoryContainer$$.appendChild(card$$);
 
         //añadimos el eventListener a las cartas
-        cardBack$$.addEventListener("click",showPlanet);       
-
+        cardBack$$.addEventListener("click",showPlanet);  
+        
+        totalCards++;
     }
 };
 
@@ -194,6 +217,11 @@ function showPlanet(event) {
                 score = score + 10;
                 attempts++;
                 hasFlippedCard = false;
+                pairsMatched++;
+
+                if (pairsMatched === (totalCards/2)){
+                    setTimeout (finished,2000);
+                }
 
             //comparamos las cartas y, si NO son iguales, resta puntos y suma 1 intento a las jugadas
             //si NO son iguales también girará las cartas y las mantiene desbloqueadas (no remueve el eventListener)
@@ -215,7 +243,7 @@ function showPlanet(event) {
 
                     //! desactivamos el bloqueo de clicks
                     document.removeEventListener("click", handler, true);
-                }, 4000);
+                }, 2000);
                 attempts++;
                 score = score - 5;
                 hasFlippedCard = false;
@@ -232,6 +260,8 @@ let hasFlippedCard = false;
 let firstCard, secondCard;
 let attempts = 0;
 let score = 0;
+let totalCards = 0;
+let pairsMatched = 0;
 
 //función que bloquea los clicks en la página
 function handler(e) {
@@ -239,25 +269,21 @@ function handler(e) {
     e.preventDefault();
 };
 
+function finished () {
+    const victory$$ = document.querySelector(".victoryDiv");
+    victory$$.classList.add("finished");
+    document.querySelector(".p1").textContent = "ENHORABUENA!! HAS ACABADO LA PARTIDA!!!"
+    document.querySelector(".p2").textContent = "Has conseguido " + score + " puntos de un máximo de 60 en un total de " + attempts + " intentos.";
+    document.querySelector(".p3").textContent = "Si quieres volver a jugar, pulsa el boton de RESET"
+}
+
 //creamos el botón de RESET para iniciar de nuevo la partida, le damos atributos y lo insertamos a la web
+
 const reset$$ = document.createElement("button");
 reset$$.textContent = "RESET";
 reset$$.setAttribute("onclick","document.location.reload()");
 reset$$.setAttribute("class","resetButton");
 document.body.appendChild(reset$$);
 
+
 window.onload = createMemory;
-
-//! Ejemplo de funcion ASYNC para captar info de los 2 EVENT
-
-// let divs       = document.getElementsByClassName("div")
-// let divsNumber = divs.length;
-// let divver     = document.getElementsByClassName("divver")[0]
-
-// function shuffler() {
-//   for (var i = divsNumber; i >= 0; i--) {
-//     if (!divver.children[i].classList.contains("div")) {
-//       divver.appendChild(divver.children[Math.random() * i | 0]);
-//     }
-//   }
-// }
