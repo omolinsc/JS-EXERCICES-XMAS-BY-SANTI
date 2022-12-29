@@ -58,12 +58,12 @@ h2 {
     cursor: pointer;
     position: relative;
     gap: 5px;
+    
 }
 
 .cardBack {
     width: 100%;
     height: 100%;
-    /* border: 4px solid rgba(0, 0, 0, 0.808); */
     border-radius: 15px;
     cursor: pointer;
     position: absolute;
@@ -74,10 +74,24 @@ h2 {
     top: 0;
     left: 0;
     opacity: 0;
+    transition: 0.5s;
 }
 
 .cardBack:hover {
     box-shadow: 0 0 20px inset white;
+    transform: scale(1.08);
+    transition: 0.5s;
+    border: 4px solid rgba(0, 0, 0, 0.808);
+}
+
+.cardMatch {
+    transition: 1s;
+    box-shadow: 0 0 20px 10px inset rgba(0, 255, 0, 0.678);
+}
+
+.cardUnmatch {
+    transition: 1s;
+    box-shadow: 0 0 20px 10px inset rgba(255, 0, 0, 0.678);
 }
 
 .shown {
@@ -87,5 +101,21 @@ h2 {
 img {
     width: 100%;
     padding: 0px;
+}
 
+.resetButton {
+    width: 100px;
+    height: 30px;
+    color: white;
+    background-color: rgba(255, 0, 0, 0.527);
+    box-shadow: 0 0 5px 1px black;
+    border-radius: 20px;
+    transition: 1s;
+}
+
+.resetButton:hover {
+    background-color: rgba(255, 72, 0, 0.705);
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 1s;
 }

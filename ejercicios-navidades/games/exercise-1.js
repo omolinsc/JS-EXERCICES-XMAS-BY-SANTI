@@ -134,13 +134,13 @@ function createMemory (){
         card$$.appendChild(cardTitle$$);
         memoryContainer$$.appendChild(card$$);
 
-        cardBack$$.addEventListener("click",showPlanet);
+        //añadimos el eventListener a las cartas
+        cardBack$$.addEventListener("click",showPlanet);       
 
     }
 };
 
 // creamos la función que haga invisible el reverso y así ver la carta
-
   
 function showPlanet(event) {
 
@@ -152,35 +152,112 @@ function showPlanet(event) {
     // event.path[1] es el div de la carta con ID y que contiene el H2
     // esta info la necesitaremos para comparar los clicks
     const cardBack2$$ = event.path[1];
-    // console.log(event.path[1]);
     
     //guardamos la información del ID y del H2
     const planetEventId$$ = event.path[1].id;
     const planetEventName$$ = event.path[1].querySelector("h2").innerText;
-    console.log("ID SELECCIONADA:", planetEventId$$);
-    console.log("PLANETA SELECCIONADO: ", planetEventName$$);
 
+        //observamos la 1a carta girada y guardamos sus datos en variables
+        if (hasFlippedCard === false) {
+            hasFlippedCard = true;
+            firstId = event.path[1].id;
+            firstName = event.path[1].querySelector("h2").innerText;
+            firstCard = event.path[0];
+            firstCardFlipped = event.path[1];
+
+            console.log("1ST CARD FLIPPED");
+            console.log("ID SELECCIONADA:", firstId, " & PLANETA SELECCIONADO: ", firstName);
+            return;
+        }
+        
+        //observamos la 2a carta girada y guardamos sus datos en variables
+        if (hasFlippedCard === true) {
+            secondId = event.path[1].id;
+            secondName = event.path[1].querySelector("h2").innerText;
+            secondCard = event.path[0];
+            secondCardFlipped = event.path[1];
+
+            console.log("2ND CARD FLIPPED");
+            console.log("ID SELECCIONADA:", secondId, " & PLANETA SELECCIONADO: ", secondName);
+            
+            //comparamos las cartas y, si son iguales, suma puntos y 1 intento a las jugadas
+            //si son iguales también dejará las cartas giradas y bloqueadas (sin eventListener)
+            if (firstId !== secondId && firstName === secondName) {
+                console.log("BINGOOOO!!!");
+                firstCard.removeEventListener('click', showPlanet);
+                secondCard.removeEventListener('click', showPlanet);
+
+                //añadimos un efecto verdoso a las cartas que hacen MATCH
+                firstCardFlipped.classList.add("cardMatch");
+                secondCardFlipped.classList.add("cardMatch");
+                
+                score = score + 10;
+                attempts++;
+                hasFlippedCard = false;
+
+            //comparamos las cartas y, si NO son iguales, resta puntos y suma 1 intento a las jugadas
+            //si NO son iguales también girará las cartas y las mantiene desbloqueadas (no remueve el eventListener)
+            } else {
+                //! activamos el bloqueo de los clicks
+                document.addEventListener("click", handler, true);
+                //añadimos un efecto rojizo a las cartas que no hacen MATCH (se lo quitaremos después del TIMEOUT)
+                firstCardFlipped.classList.add("cardUnmatch");
+                secondCardFlipped.classList.add("cardUnmatch");
+                
+                console.log("ERROR");
+                setTimeout(() => {
+                    firstCard.classList.add("shown");
+                    secondCard.classList.add("shown");
+
+                    // removemos el efecto rojizo a las cartas
+                    firstCardFlipped.classList.remove("cardUnmatch");
+                    secondCardFlipped.classList.remove("cardUnmatch");
+
+                    //! desactivamos el bloqueo de clicks
+                    document.removeEventListener("click", handler, true);
+                }, 4000);
+                attempts++;
+                score = score - 5;
+                hasFlippedCard = false;
+            }
+
+            //actualizamos el SCORE y los ATTEMPTS
+            document.querySelector("[data-function=score]").textContent = score;
+            document.querySelector("[data-function=attempts]").textContent = attempts;
+            return;
+        }
 };
 
+let hasFlippedCard = false;
+let firstCard, secondCard;
+let attempts = 0;
+let score = 0;
 
+//función que bloquea los clicks en la página
+function handler(e) {
+    e.stopPropagation();
+    e.preventDefault();
+};
+
+//creamos el botón de RESET para iniciar de nuevo la partida, le damos atributos y lo insertamos a la web
+const reset$$ = document.createElement("button");
+reset$$.textContent = "RESET";
+reset$$.setAttribute("onclick","document.location.reload()");
+reset$$.setAttribute("class","resetButton");
+document.body.appendChild(reset$$);
 
 window.onload = createMemory;
 
 //! Ejemplo de funcion ASYNC para captar info de los 2 EVENT
 
-// function resolveAfter2Seconds() {
-//     return new Promise(resolve => {
-//       setTimeout(() => {
-//         resolve('resolved');
-//       }, 2000);
-//     });
+// let divs       = document.getElementsByClassName("div")
+// let divsNumber = divs.length;
+// let divver     = document.getElementsByClassName("divver")[0]
+
+// function shuffler() {
+//   for (var i = divsNumber; i >= 0; i--) {
+//     if (!divver.children[i].classList.contains("div")) {
+//       divver.appendChild(divver.children[Math.random() * i | 0]);
+//     }
 //   }
-  
-//   async function asyncCall() {
-//     console.log('calling');
-//     const result = await resolveAfter2Seconds();
-//     console.log(result);
-//     // expected output: "resolved"
-//   }
-  
-//   asyncCall();
+// }
