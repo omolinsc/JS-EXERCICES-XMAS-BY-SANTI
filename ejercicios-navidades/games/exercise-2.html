@@ -3,31 +3,41 @@
   <head>
     <meta charset="utf-8">
     <title>Whack a mole</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="exercise-2.css">
     <script src="exercise-2.js" defer></script>
 
   </head>
   <body>
 
-      <h1>Whack a mole!</h1>
-
-        <h2>Your score:</h2>
-        <h2 data-function="score">0</h2>
-
-        <h2>Seconds left:</h2>
-         <h2 data-function="time-left">30</h2>
-
-      <div class="b-grid">
-        <div data-function="square" class="b-square"></div>
-        <div data-function="square" class="b-square"></div>
-        <div data-function="square" class="b-square"></div>
-        <div data-function="square" class="b-square"></div>
-        <div data-function="square" class="b-square"></div>
-        <div data-function="square" class="b-square"></div>
-        <div data-function="square" class="b-square"></div>
-        <div data-function="square" class="b-square"></div>
-        <div data-function="square" class="b-square"></div>
+      <div class="title">
+        <img src="./public/exercise-2/newlogo.png" alt="title" class="titleImage">
+      </div>
+      <div class="liveResult">
+          <h2 data-function="score" id="score">
+            <img src="./public/exercise-2/score.png" class="icon" alt="score">
+            <p class="scoreText">0</p>
+          </h2>
+          <h2 data-function="time-left" id="time">
+            <p class="timeText">30</p>
+            <img src="./public/exercise-2/time.png" class="icon" alt="time"></h2>
       </div>
 
+      <div class="b-grid">
+        <div data-function="square" class="b-square" id="0"></div>
+        <div data-function="square" class="b-square" id="1"></div>
+        <div data-function="square" class="b-square" id="2"></div>
+        <div data-function="square" class="b-square" id="3"></div>
+        <div data-function="square" class="b-square" id="4"></div>
+        <div data-function="square" class="b-square" id="5"></div>
+        <div data-function="square" class="b-square" id="6"></div>
+        <div data-function="square" class="b-square" id="7"></div>
+        <div data-function="square" class="b-square" id="8"></div>
+      </div>
+
+      <div class="buttons">
+        <div class="startButton">START</div>
+        <div class="resetButton" onclick="window.location.reload()">RESET</div>
+      </div>
   </body>
 </html>
