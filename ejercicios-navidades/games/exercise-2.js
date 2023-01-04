@@ -26,11 +26,11 @@
 //! establecemos los marcadores de tiempo y puntuación iniciales
 let score = 0;
 let time = 30;                   //* tiempo en segundos
-let diglettInterval = 1000;      //* tiempo en milisegundos
+let diglettInterval = 600;      //* tiempo en milisegundos
+let finalScore = 0;
 
 // leemos todos los cuadrados del grid y les damos el eventListener
 const grid = document.querySelectorAll("[data-function='square']");
-console.log(grid)
 for(const square of grid){
     square.addEventListener("click", gotcha);
 }
@@ -42,6 +42,7 @@ function gotcha(event){
         score = score + 5;
         scoreHTML.textContent = score;   
     }
+    finalScore = score;
 }
 
 // creamos el botón START y le damos funcionalidad para empezar el juego
@@ -83,13 +84,36 @@ function startMole (event){
         let timeHTML = document.querySelector(".timeText");
         timeHTML.textContent = time2;
         time2--;
-        if (time2 < 5) timeHTML.setAttribute("style","color:red");
-        else timeHTML.setAttribute("style","color:white");
+        if (time2 <= 10 && time2 > 5) timeHTML.setAttribute("style","color:yellow");
+        else if (time2 <= 5) timeHTML.setAttribute("style","color:red");
+        else timeHTML.setAttribute("style","color:green");
 
-        //hacemos que el juego se acabe al final del tiempo establecido
+        //hacemos que el juego se acabe al final del tiempo establecido y muestre una ventana con el resultado
         setTimeout(() => {
             clearInterval(changeTime);
-            document.querySelector(".b-grid").setAttribute("style","display: none");
+            setTimeout(() => {
+                const finalPosition$$ = document.querySelector(".b-grid");
+                const finalResults$$ = document.createElement("div");
+                    finalResults$$.setAttribute("class","finalWindow");
+                const finalTitle$$ = document.createElement("h1");
+                    if (finalScore >= 100) {
+                        finalTitle$$.setAttribute("style","color:green");
+                        finalResults$$.setAttribute("style","border: 6px inset rgba(0, 255, 21, 0.733)")
+                        finalTitle$$.textContent = "VICTORY !!!";
+                    } else {
+                        finalTitle$$.setAttribute("style","color:red");
+                        finalResults$$.setAttribute("style","border: 6px inset rgba(255, 0, 0, 0.719)");
+                        finalTitle$$.textContent = "YOU LOSE - Try Again";
+                    }
+
+                const finalText$$ = document.createElement("h2");
+                    finalText$$.textContent = "Has conseguido una puntuación de " + finalScore + " . Pulsa el botón de RESET para volver a jugar e intentar mejorar tu puntuación actual."                
+
+                finalPosition$$.appendChild(finalResults$$);
+                    finalResults$$.appendChild(finalTitle$$);
+                    finalResults$$.appendChild(finalText$$);
+
+            }, 2000);
         }, time*1000);        
     }, 1000);
 }
@@ -98,10 +122,13 @@ function startMole (event){
 let lastRandomNumber = 0;
 function randomMole(event) {
     let randomNumber = Math.floor(Math.random() * 9);
-    if (randomNumber === lastRandomNumber) randomNumber = Math.floor(Math.random() * 9);
-    else if (randomNumber === lastRandomNumber) randomNumber = Math.floor(Math.random() * 9);
-    else
-    console.log(randomNumber)
+    if (randomNumber === lastRandomNumber) {
+        randomNumber = Math.floor(Math.random() * 9);
+    } else if (randomNumber === lastRandomNumber) { 
+        randomNumber = Math.floor(Math.random() * 9);
+    } else {
+        randomNumber = Math.floor(Math.random() * 9);
+    }
     document.getElementById(randomNumber).classList.add("diglett");
     setTimeout(() => {
         document.getElementById(randomNumber).classList.remove("diglett");
