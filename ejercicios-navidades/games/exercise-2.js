@@ -26,7 +26,7 @@
 //! establecemos los marcadores de tiempo y puntuación iniciales
 let score = 0;
 let time = 30;                   //* tiempo en segundos
-let diglettInterval = 600;      //* tiempo en milisegundos
+let diglettInterval = 700;      //* tiempo en milisegundos
 let finalScore = 0;
 
 // leemos todos los cuadrados del grid y les damos el eventListener
@@ -122,10 +122,10 @@ function startMole (event){
 let lastRandomNumber = 0;
 function randomMole(event) {
     let randomNumber = Math.floor(Math.random() * 9);
-    if (randomNumber === lastRandomNumber) {
-        randomNumber = Math.floor(Math.random() * 9);
-    } else if (randomNumber === lastRandomNumber) { 
-        randomNumber = Math.floor(Math.random() * 9);
+    if (randomNumber === lastRandomNumber && randomNumber === 0) {
+        randomNumber++;
+    } else if (randomNumber === lastRandomNumber && randomNumber === 8) { 
+        randomNumber--;
     } else {
         randomNumber = Math.floor(Math.random() * 9);
     }
