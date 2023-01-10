@@ -494,3 +494,55 @@ const persons = [
         longHair: 'No'
     }
 ]
+
+//! creamos el tablero de personas
+// hacemos un random de los personajes, seleccionamos el 1o y volvemos a hacer random
+let shuffledPersons = persons.sort((a, b) => 0.5 - Math.random());
+let selected = shuffledPersons[0];
+console.log(selected)
+shuffledPersons = persons.sort((a, b) => 0.5 - Math.random());
+
+// creamos las cartas con la imagen correspondiente
+const board$$ = document.querySelector(".b-board-game");
+const renderPersons = () => {
+
+    for (const person of shuffledPersons) {
+        const card$$ = document.createElement("div");
+        const image$$ = document.createElement("img");
+
+        image$$.src = person.img;
+        image$$.className = "card";
+
+        board$$.appendChild(card$$);
+        card$$.appendChild(image$$);
+    }
+}
+
+//! creamos el tablero de preguntas
+
+const questionsBoard$$ = document.querySelector(".b-questions");
+questionsBoard$$.className = "questionsContainer"
+const renderQuestions = () => {
+
+    for (const question of questionsType) {
+
+        const question$$ = document.createElement("div");
+        const title$$ = document.createElement("h3");
+
+        question$$.className = "question";
+        title$$.textContent = question.title + " ?";
+
+        questionsBoard$$.appendChild(question$$);
+        question$$.appendChild(title$$);
+
+        question.questions.forEach(element => {
+        
+            const choices$$ = document.createElement("button");
+            choices$$.textContent = element;
+            question$$.appendChild(choices$$);
+        });
+    }
+}
+
+
+window.onload = renderPersons(), renderQuestions();
