@@ -26,7 +26,7 @@
 //! establecemos los marcadores de tiempo y puntuación iniciales
 let score = 0;
 let time = 30;                   //* tiempo en segundos
-let diglettInterval = 700;      //* tiempo en milisegundos
+let diglettInterval = 550;      //* tiempo en milisegundos
 let finalScore = 0;
 
 // leemos todos los cuadrados del grid y les damos el eventListener

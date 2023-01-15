@@ -169,25 +169,25 @@ function createMemory (){
 function showPlanet(event) {
 
     // hacemos visible el planeta seleccionado
-    // event.path[0] es el div que haremos invisible al clicar
-    event.path[0].setAttribute("class","cardBack");
+    // event.composedPath()[0] es el div que haremos invisible al clicar
+    event.composedPath()[0].setAttribute("class","cardBack");
     
     // localizamos la información que queremos del eventListener
-    // event.path[1] es el div de la carta con ID y que contiene el H2
+    // event.composedPath()[1] es el div de la carta con ID y que contiene el H2
     // esta info la necesitaremos para comparar los clicks
-    const cardBack2$$ = event.path[1];
+    const cardBack2$$ = event.composedPath()[1];
     
     //guardamos la información del ID y del H2
-    const planetEventId$$ = event.path[1].id;
-    const planetEventName$$ = event.path[1].querySelector("h2").innerText;
+    const planetEventId$$ = event.composedPath()[1].id;
+    const planetEventName$$ = event.composedPath()[1].querySelector("h2").innerText;
 
         //observamos la 1a carta girada y guardamos sus datos en variables
         if (hasFlippedCard === false) {
             hasFlippedCard = true;
-            firstId = event.path[1].id;
-            firstName = event.path[1].querySelector("h2").innerText;
-            firstCard = event.path[0];
-            firstCardFlipped = event.path[1];
+            firstId = event.composedPath()[1].id;
+            firstName = event.composedPath()[1].querySelector("h2").innerText;
+            firstCard = event.composedPath()[0];
+            firstCardFlipped = event.composedPath()[1];
 
             console.log("1ST CARD FLIPPED");
             console.log("ID SELECCIONADA:", firstId, " & PLANETA SELECCIONADO: ", firstName);
@@ -196,10 +196,10 @@ function showPlanet(event) {
         
         //observamos la 2a carta girada y guardamos sus datos en variables
         if (hasFlippedCard === true) {
-            secondId = event.path[1].id;
-            secondName = event.path[1].querySelector("h2").innerText;
-            secondCard = event.path[0];
-            secondCardFlipped = event.path[1];
+            secondId = event.composedPath()[1].id;
+            secondName = event.composedPath()[1].querySelector("h2").innerText;
+            secondCard = event.composedPath()[0];
+            secondCardFlipped = event.composedPath()[1];
 
             console.log("2ND CARD FLIPPED");
             console.log("ID SELECCIONADA:", secondId, " & PLANETA SELECCIONADO: ", secondName);
