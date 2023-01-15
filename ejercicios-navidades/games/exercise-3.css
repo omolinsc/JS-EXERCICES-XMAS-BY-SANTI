@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:ital@1&display=swap');
+
+
 * {
     margin: 0;
     padding: 0;
@@ -9,14 +12,20 @@
 
 body{
     width: 100%;
+    background-image: url("./public/exercise-3/background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: 'Lobster Two', cursive;
+    margin-top: 20px;
 }
 
 .b-board-game {
-    width: 95%;
+    width: 60%;
     padding: 10px;
     gap: 10px;
     display: flex;
@@ -27,16 +36,36 @@ body{
 }
 
 .card {
-    width: 150px;
+    width: 100px;
     object-fit: contain;
     padding: 10px 0 0 0;
     margin: 5px;
     box-shadow: 0 0 10px 5px inset rgba(0, 0, 0, 0.486);
     border-radius: 100px;
+    cursor: pointer;
+}
+
+.cardDisabled {
+    pointer-events: none;
+    opacity: 0.15;
+    transition: 2s;
+    background-color: rgba(88, 88, 88, 0.644);
+}
+
+.correctCard {
+    transition: 0.2s;
+    background-color: rgba(79, 255, 79, 0.644);
+    opacity: 1;
+}
+
+.errorCard {
+    transition: 0.2s;
+    background-color: rgba(224, 44, 44, 0.658);
+    opacity: 1;
 }
 
 .questionsContainer {
-    width: 95%;
+    width: 70%;
     padding: 10px;
     margin: 20px 0 20px 0;
     display: flex;
@@ -54,7 +83,7 @@ body{
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.089);
     border-radius: 20px;
-
+    text-align: center;
 }
 
 h2 {
@@ -78,4 +107,18 @@ button {
 button:hover {
     background-color: rgba(127, 240, 255, 0.753);
     cursor: pointer;
+}
+
+.disableButtonCorrect {
+    background-color: rgba(137, 255, 137, 0.63);
+    opacity: 0.5;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.disableButtonIncorrect {
+    background-color: rgba(180, 56, 56, 0.733);
+    opacity: 0.5;
+    pointer-events: none;
+    transition: 0.5s;
 }
